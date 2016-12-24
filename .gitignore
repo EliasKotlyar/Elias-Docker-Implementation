@@ -43,3 +43,6 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 
+/.idea/docker.iml
+/.idea/modules.xml
+/.idea/vcs.xml
