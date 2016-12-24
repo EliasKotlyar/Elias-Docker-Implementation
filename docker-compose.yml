@@ -1,0 +1,46 @@
+version: '2'
+
+services:
+  web:
+    build: ./docker/web
+    image: webapp
+
+    hostname: magento.docker
+    ports:
+      - 80
+      - 443
+    volumes:
+      - ./httpdocs:/var/www/
+    depends_on:
+       - db
+    links:
+       - db
+    networks:
+      static-network:
+        ipv4_address: 10.0.0.10
+
+
+  db:
+     hostname: database.docker
+     image: mysql:5.7
+     volumes:
+       - ./mysql:/var/lib/mysql
+     restart: always
+     environment:
+       MYSQL_ROOT_PASSWORD: toor
+       MYSQL_DATABASE: magento
+       MYSQL_USER: magento
+       MYSQL_PASSWORD: magento
+     networks:
+       static-network:
+         ipv4_address: 10.0.0.11
+
+
+
+
+networks:
+  static-network:
+    ipam:
+      config:
+        - subnet: 10.0.0.0/16
+          ip_range: 10.0.0.0/24
