@@ -53,6 +53,8 @@ RUN chmod +x /tmp/n98-magerun.sh
 RUN /tmp/n98-magerun.sh
 
 
+RUN echo 'cd /var/www' >> /root/.bashrc
+
 ENV TERM xterm
 
 EXPOSE 80
