@@ -1,7 +1,6 @@
 FROM ubuntu:16.04
 MAINTAINER elias.kotlyar@gmail.com
 
-VOLUME ["/var/www"]
 
 RUN echo 'phpmyadmin phpmyadmin/dbconfig-install boolean false' | debconf-set-selections
 RUN echo 'phpmyadmin phpmyadmin/reconfigure-webserver multiselect apache2' | debconf-set-selections
