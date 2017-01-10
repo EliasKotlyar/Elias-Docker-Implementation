@@ -28,7 +28,9 @@ RUN apt-get update && \
       php7.0-zip \
       php7.0-soap \
       php7.0-curl \
-      phpmyadmin
+      phpmyadmin \
+      p7zip \
+      composer
 
 RUN rm /etc/apache2/conf-available/phpmyadmin.conf
 RUN ln -s /etc/phpmyadmin/apache.conf /etc/apache2/conf-available/phpmyadmin.conf
