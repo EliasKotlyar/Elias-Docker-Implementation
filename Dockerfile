@@ -56,6 +56,14 @@ RUN chmod +x /tmp/n98-magerun.sh
 RUN /tmp/n98-magerun.sh
 
 
+# n98-magerun
+
+COPY scripts/mailcatcher.sh /tmp/mailcatcher.sh
+RUN chmod +x /tmp/mailcatcher.sh
+RUN /tmp/mailcatcher.sh
+
+
+
 RUN echo 'cd /var/www' >> /root/.bashrc
 
 ENV TERM xterm
