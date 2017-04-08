@@ -13,7 +13,7 @@ gem install -V mailcatcher
 # Add config to mods-available for PHP
 # -f flag sets "from" header for us
 touch /etc/php/7.0/mods-available/mailcatcher.ini
-echo "sendmail_path = /usr/bin/env $(which catchmail) -f test@local.dev" | sudo tee /etc/php/7.0/mods-available/mailcatcher.ini
+echo "sendmail_path = /usr/bin/env $(which catchmail) -f test@local.dev" | tee /etc/php/7.0/mods-available/mailcatcher.ini
 # Enable sendmail config for all php SAPIs (apache2, fpm, cli)
 phpenmod mailcatcher
 
