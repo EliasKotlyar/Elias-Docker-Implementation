@@ -28,6 +28,7 @@ RUN apt-get update && \
       php7.0-soap \
       php7.0-curl \
       php7.0-intl \
+      php-xdebug \
       phpmyadmin \
       p7zip \
       composer
@@ -59,6 +60,16 @@ RUN echo 'cd /var/www' >> /root/.bashrc
 
 ENV TERM xterm
 
+RUN apt-get install -y openssh-server
+RUN mkdir /var/run/sshd
+
+RUN echo 'root:root' |chpasswd
+
+RUN sed -ri 's/^PermitRootLogin\s+.*/PermitRootLogin yes/' /etc/ssh/sshd_config
+RUN sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config
+
+
+EXPOSE 22
 EXPOSE 80
 EXPOSE 443
 CMD ["/usr/local/bin/run"]

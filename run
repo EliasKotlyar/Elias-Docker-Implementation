@@ -1,4 +1,5 @@
 #!/bin/bash
 set -e
 
+service ssh start
 source /etc/apache2/envvars && exec /usr/sbin/apache2 -DFOREGROUND
