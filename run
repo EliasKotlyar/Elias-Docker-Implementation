@@ -1,5 +1,4 @@
 #!/bin/bash
 set -e
-mailcatcher
 service ssh start
 source /etc/apache2/envvars && exec /usr/sbin/apache2 -DFOREGROUND

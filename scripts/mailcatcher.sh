@@ -2,10 +2,6 @@
 # --------------------
 
 # Install Mailcatcher Dependencies (sqlite, ruby)
-apt-get update
-apt-get install -y build-essential software-properties-common vim curl wget tmux
-apt-add-repository -y ppa:brightbox/ruby-ng
-apt-get update
 
 apt-get install -y libsqlite3-dev ruby2.2-dev ruby2.2
 gem install -V mailcatcher
@@ -37,4 +33,4 @@ EOF
 )
 echo "$MAILCATCHERCONFIG" > /etc/apache2/conf-available/mailcatcher.conf
 a2enconf mailcatcher
-mailcatcher
+# mailcatcher
