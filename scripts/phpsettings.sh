@@ -22,3 +22,11 @@ EOF
 )
 
 echo "$XDEBUG" > /etc/php/7.2/apache2/conf.d/20-xdebug.ini
+
+IONCUBE=$(cat <<EOF
+zend_extension = /usr/lib/php/ioncube_loader_lin_7.2.so
+EOF
+)
+
+echo "$IONCUBE" > /etc/php/7.2/apache2/conf.d/10-aioncube.ini
+

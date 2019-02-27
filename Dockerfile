@@ -32,7 +32,8 @@ RUN apt-get update && \
       php-xdebug \
       phpmyadmin \
       p7zip \
-      composer
+      composer \
+      openssh-server
 
 RUN rm /etc/apache2/conf-available/phpmyadmin.conf
 RUN ln -s /etc/phpmyadmin/apache.conf /etc/apache2/conf-available/phpmyadmin.conf
@@ -50,7 +51,7 @@ COPY scripts/phpsettings.sh /tmp/phpsettings.sh
 RUN chmod +x /tmp/phpsettings.sh
 RUN /tmp/phpsettings.sh
 
-# n98-magerun
+# Magerun
 
 COPY scripts/n98-magerun.sh /tmp/n98-magerun.sh
 RUN chmod +x /tmp/n98-magerun.sh
@@ -63,13 +64,16 @@ COPY scripts/mailcatcher.sh /tmp/mailcatcher.sh
 RUN chmod +x /tmp/mailcatcher.sh
 RUN /tmp/mailcatcher.sh
 
+# Ioncube:
+COPY ioncube_loader_lin_7.2.so /usr/lib/php/ioncube_loader_lin_7.2.so
+
+
 
 
 RUN echo 'cd /var/www' >> /root/.bashrc
 
 ENV TERM xterm
 
-RUN apt-get install -y openssh-server
 RUN mkdir /var/run/sshd
 
 RUN echo 'root:root' |chpasswd
