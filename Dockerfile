@@ -67,6 +67,43 @@ RUN /tmp/mailcatcher.sh
 # Ioncube:
 COPY ioncube_loader_lin_7.2.so /usr/lib/php/ioncube_loader_lin_7.2.so
 
+# MailCatcher:
+
+
+apt-get install -y libsqlite3-dev ruby-dev ruby gcc make g++
+gem install -V mailcatcher
+
+# Add config to mods-available for PHP
+# -f flag sets "from" header for us
+touch /etc/php/7.0/mods-available/mailcatcher.ini
+echo "sendmail_path = /usr/bin/env $(which catchmail) -f test@local.dev" | tee /etc/php/7.0/mods-available/mailcatcher.ini
+# Enable sendmail config for all php SAPIs (apache2, fpm, cli)
+phpenmod mailcatcher
+
+# Apache Configuration:
+a2enmod proxy
+a2enmod proxy_http
+
+
+MAILCATCHERCONFIG=$(cat <<EOF
+ProxyRequests Off
+ProxyPass /mailcatcher http://127.0.0.1:1080/
+ProxyPass /assets http://127.0.0.1:1080/assets
+ProxyPass /messages http://127.0.0.1:1080/messages
+
+#SetEnv force-proxy-request-1.0 1
+#SetEnv proxy-nokeepalive 1
+
+
+
+EOF
+)
+echo "$MAILCATCHERCONFIG" > /etc/apache2/conf-available/mailcatcher.conf
+a2enconf mailcatcher
+# mailcatcher
+
+
+
 
 
 
