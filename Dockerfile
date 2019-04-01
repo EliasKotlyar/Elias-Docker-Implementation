@@ -34,7 +34,7 @@ RUN apt-get update && \
       p7zip \
       composer \
       openssh-server \
-      sendmail
+      ssmtp
 
 RUN rm /etc/apache2/conf-available/phpmyadmin.conf
 RUN ln -s /etc/phpmyadmin/apache.conf /etc/apache2/conf-available/phpmyadmin.conf
@@ -68,25 +68,28 @@ RUN /tmp/mailcatcher.sh
 # Ioncube:
 COPY ioncube_loader_lin_7.2.so /usr/lib/php/ioncube_loader_lin_7.2.so
 
-# MailHog:
+# mailcatcher:
 RUN a2enmod proxy
 RUN a2enmod proxy_http
 
+RUN echo "mailhub=mailcatcher:1025\nUseTLS=NO\nFromLineOverride=YES" > /etc/ssmtp/ssmtp.conf
 
 # Enable for PHP:
-RUN touch /etc/php/7.2/mods-available/mailhog.ini
-RUN echo "sendmail_path = /usr/sbin/sendmail -S mailhog:1025" | tee /etc/php/7.2/mods-available/mailhog.ini
-RUN phpenmod mailhog
+RUN touch /etc/php/7.2/mods-available/mailcatcher.ini
+RUN echo "sendmail_path = /usr/sbin/ssmtp -t" | tee /etc/php/7.2/mods-available/mailcatcher.ini
+RUN phpenmod mailcatcher
 
 
 
 
 RUN echo '\
 ProxyRequests Off \n\
-ProxyPass /mailhog http://mailhog:8025/mailhog' > /etc/apache2/conf-available/mailhog.conf
+ProxyPass /mailcatcher http://mailcatcher:1080/ \n\
+ProxyPass /assets http://mailcatcher:1080/assets \n\
+ProxyPass /messages http://mailcatcher:1080/messages' > /etc/apache2/conf-available/mailcatcher.conf
 
 
-RUN a2enconf mailhog
+RUN a2enconf mailcatcher
 # mailcatcher
 
 
